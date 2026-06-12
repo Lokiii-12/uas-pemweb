@@ -128,5 +128,7 @@ $sql = "ALTER TABLE pembayaran
     ADD FOREIGN KEY (id_order) REFERENCES orders(id_order)";
 mysqli_query($conn, $sql);
 
-
+$sql = "ALTER TABLE barang
+ ADD COLUMN IF NOT EXISTS harga_sewa DECIMAL(10,2) NOT NULL DEFAULT 0";
+mysqli_query($conn, $sql);
 ?>
