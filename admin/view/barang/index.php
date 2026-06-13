@@ -1,5 +1,5 @@
 <?php
-require_once '../../connect.php';
+require_once 'connect.php';
 require_once '../../config/header.php';
 
 if (isset($_GET['hapus'])) {

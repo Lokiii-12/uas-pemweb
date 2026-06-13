@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$dbname = "eskafolding";
+$dbname = "db_scafolding";
 try
 {
     $conn = mysqli_connect($host, $user, $pass, $dbname);
