@@ -23,15 +23,17 @@ $sql = "CREATE TABLE IF NOT EXISTS customer (
 )";
 mysqli_query($conn, $sql);
 
-$sql = "CREATE TABLE IF NOT EXISTS admin (
-    id_admin VARCHAR(20) NOT NULL,
+$sql = "CREATE TABLE IF NOT EXISTS pegawai (
+    id_pegawai   VARCHAR(20) NOT NULL,
     nama_lengkap VARCHAR(50) NOT NULL,
-    username VARCHAR(20) NULL,
-    password VARCHAR(255) NOT NULL,
-    alamat VARCHAR(100) NOT NULL,
-    no_telp VARCHAR(20) NOT NULL,
-    PRIMARY KEY(id_admin)
+    username     VARCHAR(20) NULL,
+    password     VARCHAR(255) NOT NULL,
+    alamat       VARCHAR(100) NOT NULL,
+    no_telp      VARCHAR(20) NOT NULL,
+    peran        ENUM('admin', 'petugas_lapangan') NOT NULL DEFAULT 'petugas_lapangan',
+    PRIMARY KEY(id_pegawai)
 )";
+
 mysqli_query($conn, $sql);
 
 $sql = "CREATE TABLE IF NOT EXISTS orders (
@@ -48,7 +50,7 @@ $sql = "CREATE TABLE IF NOT EXISTS kontrak (
     id_kontrak VARCHAR(20) NOT NULL,
     id_order VARCHAR(20) NOT NULL,
     id_customer VARCHAR(20) NOT NULL,
-    id_admin VARCHAR(20) NOT NULL,
+    id_pegawai VARCHAR(20) NOT NULL,
     tgl_kontrak DATE NOT NULL,
     tgl_jatuh_tempo DATETIME NOT NULL,
     PRIMARY KEY(id_kontrak)
@@ -100,7 +102,7 @@ $sql = "ALTER TABLE kontrak
 mysqli_query($conn, $sql);
 
 $sql = "ALTER TABLE kontrak 
-    ADD FOREIGN KEY (id_admin) REFERENCES admin(id_admin)";
+    ADD FOREIGN KEY (id_pegawai) REFERENCES pegawai(id_pegawai)";
 mysqli_query($conn, $sql);
 
 // keranjang -> customer, barang
@@ -126,5 +128,7 @@ $sql = "ALTER TABLE pembayaran
     ADD FOREIGN KEY (id_order) REFERENCES orders(id_order)";
 mysqli_query($conn, $sql);
 
-echo "Semua tabel dan relasi berhasil dibuat!";
+$sql = "ALTER TABLE barang
+ ADD COLUMN IF NOT EXISTS harga_sewa DECIMAL(10,2) NOT NULL DEFAULT 0";
+mysqli_query($conn, $sql);
 ?>
